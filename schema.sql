@@ -4,4 +4,11 @@ CREATE TABLE users (
     password_hash TEXT
 );
 
+CREATE TABLE reviews (
+    id INTEGER PRIMARY KEY,
+    title TEXT,
+    author TEXT,
+    description TEXT,
+    user_id INTEGER REFERENCES users
+);
 
