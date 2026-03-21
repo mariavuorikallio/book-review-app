@@ -78,6 +78,6 @@ def login():
 
 @app.route("/logout")
 def logout():
-    del session["user_id"]
-    del session["username"]
+    session.pop("user_id", None)
+    session.pop("username", None)
     return redirect("/")
