@@ -45,5 +45,8 @@ sqlite3 database.db < init.sql
 flask run
 ```
 
+
 ### 6. Avaa selaimessa
 ```text
+http://127.0.0.1:5000
+```
