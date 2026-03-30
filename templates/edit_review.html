@@ -10,15 +10,15 @@
   <form action="/update_review" method="post">
     <p>
       Kirjan nimi: <br />
-      <input type="text" name="title" value="{{ review.title }}" />
+      <input type="text" name="title" value="{{ review.title }}" maxlength="50" required />
     </p>
     <p>
       Kirjailija: <br />
-      <input type="text" name="author" value="{{ review.author }}"/>
+      <input type="text" name="author" value="{{ review.author }}" maxlength="50" required/>
     </p>
     <p>
       Kuvaus: <br />
-      <textarea name="description" rows="8" cols="60">{{ review.description }}</textarea>
+      <textarea name="description" rows="8" cols="60" maxlength="1000" required >{{ review.description }}</textarea>
     </p>
     <input type="hidden" name="review_id" value="{{ review.id }}" />
     <input type="submit" value="Päivitä arvostelua" />

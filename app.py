@@ -77,8 +77,14 @@ def update_review():
     if review["user_id"] != session["user_id"]:
        abort(403)
     title = request.form["title"]
+    if not title or len(title) > 50:
+       abort(403)
     author = request.form["author"]
+    if not author or len(author) > 50:
+       abort(403)
     description = request.form["description"]
+    if not description or len(description) > 1000:
+       abort(403)
     
     reviews.update_review(review_id, title, author, description)
     
