@@ -10,15 +10,15 @@
   <form action="/create_review" method="post">
     <p>
       Kirjan nimi: <br />
-      <input type="text" name="title" />
+      <input type="text" name="title" maxlength="50" required />
     </p>
     <p>
       Kirjailija: <br />
-      <input type="text" name="author" />
+      <input type="text" name="author" maxlength="50" required />
     </p>
     <p>
       Kuvaus: <br />
-      <textarea name="description" rows="8" cols="60"></textarea>
+      <textarea name="description" rows="8" cols="60" maxlength="1000" required></textarea>
     </p>
     <input type="submit" value="Luo arvostelu" />
   </form>
