@@ -9,7 +9,15 @@ CREATE TABLE reviews (
     title TEXT,
     author TEXT,
     description TEXT,
+    genre TEXT,
+    rating INTEGER,
     user_id INTEGER REFERENCES users
+);
+
+CREATE TABLE classes (
+    id INTEGER PRIMARY KEY,
+    title TEXT,
+    value TEXT
 );
 
 CREATE TABLE review_classes (

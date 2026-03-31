@@ -47,7 +47,8 @@ def show_review(review_id):
 @app.route("/new_review")
 def new_review():
     require_login()
-    return render_template("new_review.html")
+    classes = reviews.get_all_classes()
+    return render_template("new_review.html", classes=classes)
     
 @app.route("/create_review", methods=["POST"])
 def create_review():
@@ -62,14 +63,13 @@ def create_review():
     if not description or len(description) > 1000:
        abort(403)
     user_id = session["user_id"]
+    
     classes = []
-    genre = request.form["genre"]
-    if genre:
-       classes.append(("Genre", genre))
-    rating = request.form["rating"]
-    if rating:
-       classes.append(("Arvosana", rating))
-
+    for entry in request.form.getlist("classes"):
+        if entry:
+           parts = entry.split(":")
+           classes.append((parts[0], parts[1]))
+           
     reviews.add_review(title, author, description, user_id, classes)
     
     return redirect("/")
