@@ -41,7 +41,8 @@ def show_review(review_id):
     review = reviews.get_review(review_id)
     if not review:
        abort(404)
-    return render_template("show_review.html", review=review)
+    classes = reviews.get_classes(review_id)
+    return render_template("show_review.html", review=review, classes=classes)
     
 @app.route("/new_review")
 def new_review():
@@ -61,8 +62,15 @@ def create_review():
     if not description or len(description) > 1000:
        abort(403)
     user_id = session["user_id"]
-    
-    reviews.add_review(title, author, description, user_id)
+    classes = []
+    genre = request.form["genre"]
+    if genre:
+       classes.append(("Genre", genre))
+    rating = request.form["rating"]
+    if rating:
+       classes.append(("Arvosana", rating))
+
+    reviews.add_review(title, author, description, user_id, classes)
     
     return redirect("/")
 

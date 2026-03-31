@@ -22,6 +22,15 @@
   <p>
    Käyttäjä: <a href="/user/{{ review.user_id }}">{{ review.username }}</a>
   </p>
+  {% if classes %}
+  <p>
+  <ul>
+    {% for class in classes %}
+    <li>{{ class.title }}: {{ class.value }}</li>
+    {% endfor %}
+   </ul>
+  </p>
+  {% endif %}
   <p>
    <a href="/">Takaisin</a>
   </p>
