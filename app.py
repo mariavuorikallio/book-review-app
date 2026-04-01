@@ -64,11 +64,17 @@ def create_review():
        abort(403)
     user_id = session["user_id"]
     
+    all_classes = reviews.get_all_classes()
+    
     classes = []
     for entry in request.form.getlist("classes"):
         if entry:
-           parts = entry.split(":")
-           classes.append((parts[0], parts[1]))
+           class_title, class_value = entry.split(":")
+           if class_title not in all_classes:
+              abort(403)
+           if class_value not in all_classes[class_title]:
+              abort(403)
+           classes.append((class_title, class_value))
            
     reviews.add_review(title, author, description, user_id, classes)
     
@@ -111,8 +117,12 @@ def update_review():
     classes = []
     for entry in request.form.getlist("classes"):
         if entry:
-           parts = entry.split(":")
-           classes.append((parts[0], parts[1]))       
+           class_title, class_value = entry.split(":")
+           if class_title not in all_classes:
+              abort(403)
+           if class_value not in all_classes[class_title]:
+              abort(403)
+           classes.append((class_title, class_value))       
            
     reviews.update_review(review_id, title, author, description, classes)
     
