@@ -82,7 +82,13 @@ def edit_review(review_id):
        abort(404)
     if review["user_id"] != session["user_id"]:
        abort(403)
-    return render_template("edit_review.html", review=review)
+    all_classes = reviews.get_all_classes()
+    classes = {}
+    for my_class in all_classes:
+        classes[my_class] = ""
+    for entry in reviews.get_classes(review_id):
+        classes[entry["title"]] = entry["value"]
+    return render_template("edit_review.html", review=review, classes=classes, all_classes=all_classes)
     
 @app.route("/update_review", methods=["POST"])
 def update_review():
@@ -102,7 +108,13 @@ def update_review():
     if not description or len(description) > 1000:
        abort(403)
     
-    reviews.update_review(review_id, title, author, description)
+    classes = []
+    for entry in request.form.getlist("classes"):
+        if entry:
+           parts = entry.split(":")
+           classes.append((parts[0], parts[1]))       
+           
+    reviews.update_review(review_id, title, author, description, classes)
     
     return redirect("/review/" + str(review_id))
     
