@@ -31,6 +31,21 @@
    </ul>
   </p>
   {% endif %}
+<h2>Kommentit</h2>
+<ul>
+  {% for comment in comments %}
+    <li>
+      <a href="/user/{{ comment.user_id }}">{{ comment.username }}</a>: {{ comment.content }}
+      <small>{{ comment.created_at[:10] }}</small>
+    </li>
+  {% endfor %}
+</ul>
+
+<form action="/create_comment" method="post">
+  <textarea name="content" rows="4" cols="60" maxlength="1000" required></textarea>
+  <input type="hidden" name="review_id" value="{{ review.id }}">
+  <input type="submit" value="Lisää kommentti" />
+</form>
   <p>
    <a href="/">Takaisin</a>
   </p>

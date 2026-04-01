@@ -39,17 +39,19 @@ def find_review():
 @app.route("/review/<int:review_id>")
 def show_review(review_id):
     review = reviews.get_review(review_id)
+    print(review)
     if not review:
        abort(404)
     classes = reviews.get_classes(review_id)
-    return render_template("show_review.html", review=review, classes=classes)
+    comments = reviews.get_comments(review_id)
+    return render_template("show_review.html", review=review, classes=classes, comments=comments)
     
 @app.route("/new_review")
 def new_review():
     require_login()
     classes = reviews.get_all_classes()
     return render_template("new_review.html", classes=classes)
-    
+       
 @app.route("/create_review", methods=["POST"])
 def create_review():
     require_login()
@@ -79,6 +81,21 @@ def create_review():
     reviews.add_review(title, author, description, user_id, classes)
     
     return redirect("/")
+    
+@app.route("/create_comment", methods=["POST"])
+def create_comment():
+    require_login()
+    review_id = request.form["review_id"]
+    review = reviews.get_review(review_id)
+    if not review:
+       abort(403)
+    user_id = session["user_id"]
+    content = request.form["content"] 
+    if not content or len(content) > 1000:
+        abort(403)
+    reviews.add_comment(review_id, user_id, content)
+    
+    return redirect("/review/" + str(review_id))
 
 @app.route("/edit_review/<int:review_id>")
 def edit_review(review_id):
