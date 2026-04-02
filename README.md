@@ -20,7 +20,7 @@
 ### 1. Kloonaa projekti
 ```bash
 git clone <repo-url>
-cd boo-review-app
+cd book-review-app
 ```
 
 ### 2. Luo ja aktivoi virtuaaliympäristö
