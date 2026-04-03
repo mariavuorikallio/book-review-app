@@ -5,10 +5,15 @@ import config
 import db
 import reviews
 import users
+import secrets
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
 
+def check_csrf():
+    if "csrf_token" not in session or request.form.get("csrf_token") != session["csrf_token"]:
+        abort(403)
+        
 def require_login():
     if "user_id" not in session:
         abort(403)
@@ -29,25 +34,17 @@ def show_user(user_id):
 @app.route("/add_image", methods=["GET", "POST"])
 def add_image():
     require_login()
-
     if request.method == "GET":
         return render_template("add_image.html")
-
-    if request.method == "POST":
-        file = request.files["image"]
-
-        if not file.filename.endswith(".jpg"):
-            return "VIRHE: väärä tiedostomuoto"
-
-        image = file.read()
-
-        if len(image) > 100 * 1024:
-            return "VIRHE: liian suuri kuva"
-
-        user_id = session["user_id"]
-        users.update_image(user_id, image)
-
-        return redirect("/user/" + str(user_id))
+    check_csrf()
+    if not file.filename.endswith(".jpg"):
+        return "VIRHE: väärä tiedostomuoto"
+    image = file.read()
+    if len(image) > 100 * 1024:
+        return "VIRHE: liian suuri kuva"
+    user_id = session["user_id"]
+    users.update_image(user_id, image)
+    return redirect("/user/" + str(user_id))
 
 @app.route("/image/<int:user_id>")
 def show_image(user_id):
@@ -88,6 +85,7 @@ def new_review():
 @app.route("/create_review", methods=["POST"])
 def create_review():
     require_login()
+    check_csrf()
     title = request.form["title"]
     if not title or len(title) > 50:
        abort(403)
@@ -118,6 +116,7 @@ def create_review():
 @app.route("/create_comment", methods=["POST"])
 def create_comment():
     require_login()
+    check_csrf()
     review_id = request.form["review_id"]
     review = reviews.get_review(review_id)
     if not review:
@@ -148,6 +147,8 @@ def edit_review(review_id):
     
 @app.route("/update_review", methods=["POST"])
 def update_review():
+    require_login()
+    check_csrf()
     review_id = request.form["review_id"]
     review = reviews.get_review(review_id)
     if not review:
@@ -188,12 +189,11 @@ def remove_review(review_id):
        abort(403)
     if request.method == "GET":
        return render_template("remove_review.html", review=review)
-    if request.method == "POST":
-       if "remove" in request.form:
-           reviews.remove_review(review_id)
-           return redirect("/")
-       else:
-           return redirect("/review/" + str(review_id))
+    check_csrf()
+    if "remove" in request.form:
+        reviews.remove_review(review_id)
+        return redirect("/")
+    return redirect("/review/" + str(review_id))
     
 @app.route("/register")
 def register():
@@ -225,6 +225,7 @@ def login():
        if user_id:
           session["user_id"] = user_id
           session["username"] = username
+          session["csrf_token"] = secrets.token_hex(16)
           return redirect("/")
        else:
           return "VIRHE: väärä tunnus tai salasana"

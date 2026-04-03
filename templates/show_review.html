@@ -7,47 +7,57 @@
 
 <body>
   <h1>{{ review.title }}</h1>
+  
   {% if session.user_id == review.user_id %}
   <p>
     <a href="/edit_review/{{ review.id }}">Muokkaa</a>
     <a href="/remove_review/{{ review.id }}">Poista</a>
   </p>
   {% endif %}
+  
   <p>
-   {{ review.author }}
+    {{ review.author }}
   </p>
   <p>
-   Kuvaus: {{ review.description }}
+    Kuvaus: {{ review.description }}
   </p>
   <p>
-   Käyttäjä: <a href="/user/{{ review.user_id }}">{{ review.username }}</a>
+    Käyttäjä: <a href="/user/{{ review.user_id }}">{{ review.username }}</a>
   </p>
+  
   {% if classes %}
   <p>
-  <ul>
-    {% for class in classes %}
-    <li>{{ class.title }}: {{ class.value }}</li>
-    {% endfor %}
-   </ul>
+    <ul>
+      {% for class in classes %}
+        <li>{{ class.title }}: {{ class.value }}</li>
+      {% endfor %}
+    </ul>
   </p>
   {% endif %}
-<h2>Kommentit</h2>
-<ul>
-  {% for comment in comments %}
-    <li>
-      <a href="/user/{{ comment.user_id }}">{{ comment.username }}</a>: {{ comment.content }}
-     <small>{{ comment.created_at[8:10] }}.{{ comment.created_at[5:7] }}.{{ comment.created_at[0:4] }} klo {{ comment.created_at[11:16] }}</small>
-    </li>
-  {% endfor %}
-</ul>
+  
+  <h2>Kommentit</h2>
+  <ul>
+    {% for comment in comments %}
+      <li>
+        <a href="/user/{{ comment.user_id }}">{{ comment.username }}</a>: {{ comment.content }}
+        <small>{{ comment.created_at[8:10] }}.{{ comment.created_at[5:7] }}.{{ comment.created_at[0:4] }} klo {{ comment.created_at[11:16] }}</small>
+      </li>
+    {% endfor %}
+  </ul>
 
-<form action="/create_comment" method="post">
-  <textarea name="content" rows="4" cols="60" maxlength="1000" required></textarea>
-  <input type="hidden" name="review_id" value="{{ review.id }}">
-  <input type="submit" value="Lisää kommentti" />
-</form>
+  {% if session.user_id %}
+  <form action="/create_comment" method="post">
+    <textarea name="content" rows="4" cols="60" maxlength="1000" required></textarea>
+    <input type="hidden" name="review_id" value="{{ review.id }}">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+    <input type="submit" value="Lisää kommentti" />
+  </form>
+  {% else %}
+    <p>Kirjaudu sisään lisätäksesi kommentin.</p>
+  {% endif %}
+  
   <p>
-   <a href="/">Takaisin</a>
+    <a href="/">Takaisin</a>
   </p>
 </body>
 

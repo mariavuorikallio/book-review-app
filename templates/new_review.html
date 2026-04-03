@@ -20,6 +20,7 @@
       Kuvaus: <br />
       <textarea name="description" rows="8" cols="60" maxlength="1000" required></textarea>
     </p>
+
     {% for class in classes %}
     <p>
       {{ class }}: <br />
@@ -27,9 +28,12 @@
       {% for option in classes[class] %}
         <option value="{{ class }}:{{ option }}">{{ option }}</option>
       {% endfor %}
-     </select>
-     </p>
-     {% endfor %}
+      </select>
+    </p>
+    {% endfor %}
+
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+
     <input type="submit" value="Luo arvostelu" />
   </form>
 </body>

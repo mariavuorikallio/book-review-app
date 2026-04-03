@@ -9,7 +9,7 @@
   <h1>Muokkaa arvostelua</h1>
 
   <form action="/update_review" method="post">
-
+    
     <p>
       Kirjan nimi: <br />
       <input type="text" name="title" value="{{ review.title }}" maxlength="50" required />
@@ -26,6 +26,7 @@
     </p>
 
     <input type="hidden" name="review_id" value="{{ review.id }}" />
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
 
     {% for class in all_classes %}
       <p>
@@ -33,9 +34,9 @@
         <select name="classes">
           {% for option in all_classes[class] %}
             {% if classes[class] == option %}
-            <option value="{{ class }}:{{ option }}" selected>{{ option }}</option>
+              <option value="{{ class }}:{{ option }}" selected>{{ option }}</option>
             {% else %}
-            <option value="{{ class }}:{{ option }}" >{{ option }}</option>
+              <option value="{{ class }}:{{ option }}">{{ option }}</option>
             {% endif %}
           {% endfor %}
         </select>
