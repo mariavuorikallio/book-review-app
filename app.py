@@ -130,7 +130,7 @@ def update_review():
     description = request.form["description"]
     if not description or len(description) > 1000:
        abort(403)
-    
+    all_classes = reviews.get_all_classes()
     classes = []
     for entry in request.form.getlist("classes"):
         if entry:

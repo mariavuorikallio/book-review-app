@@ -36,7 +36,7 @@
   {% for comment in comments %}
     <li>
       <a href="/user/{{ comment.user_id }}">{{ comment.username }}</a>: {{ comment.content }}
-      <small>{{ comment.created_at[:10] }}</small>
+     <small>{{ comment.created_at[8:10] }}.{{ comment.created_at[5:7] }}.{{ comment.created_at[0:4] }} klo {{ comment.created_at[11:16] }}</small>
     </li>
   {% endfor %}
 </ul>
