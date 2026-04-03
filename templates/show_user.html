@@ -7,10 +7,24 @@
 
 <body>
   <h1>{{ user.username }}</h1>
-  <p>
-   Käyttäjällä on yhteensä {{ reviews | count }} arvostelua.
-   <a href="/">Takaisin</a>
-  </p>
+
+  {% if user.has_image %}
+    <img src="/image/{{ user.id }}" alt="Profiilikuva" style="max-width:150px; max-height:150px;">
+  {% elif session.user_id == user.id %}
+    <p>Et ole vielä lisännyt profiilikuvaa. <a href="/add_image">Lisää profiilikuva</a></p>
+  {% else %}
+    <p>Ei profiilikuvaa</p>
+  {% endif %}
+
+  <p>Käyttäjällä on yhteensä {{ reviews | count }} arvostelua.</p>
+
+  <ul>
+    {% for review in reviews %}
+      <li><a href="/review/{{ review.id }}">{{ review.title }}</a></li>
+    {% endfor %}
+  </ul>
+
+  <p><a href="/">Takaisin</a></p>
 </body>
 
 </html>
