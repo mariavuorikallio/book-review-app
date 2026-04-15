@@ -11,8 +11,7 @@
 * Käyttäjä pystyy etsimään kirjoja hakusanalla (esim. kirjan nimi tai kirjailija).
 * Käyttäjäsivu näyttää, montako kirjaa käyttäjä on lisännyt ja listan käyttäjän lisäämistä kirjoista.
 * Käyttäjä pystyy valitsemaan kirjalle yhden tai useamman genren (esim. jännitys, romaani, fantasia).
-* Käyttäjät voivat antaa kirjoille arvosteluja, joissa on kommentti ja arvosana. Kirjan sivulla näytetään arvostelut ja keskimääräinen arvosana.
-
+* Käyttäjät voivat antaa kirjoille arvosteluja, joissa on kommentti ja arvosana.
 ---
 
 ## Asennusohjeet
