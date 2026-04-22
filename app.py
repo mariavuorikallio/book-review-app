@@ -2,7 +2,9 @@
 
 import secrets
 import sqlite3
+
 from flask import Flask, abort, flash, redirect, render_template, request, session, make_response
+
 import config
 import reviews
 import users
