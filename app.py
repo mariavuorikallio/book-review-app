@@ -2,7 +2,7 @@
 
 import secrets
 import sqlite3
-from flask import Flask, abort, redirect, render_template, request, session, make_response
+from flask import Flask, abort, flash, redirect, render_template, request, session, make_response
 import config
 import reviews
 import users
@@ -226,7 +226,8 @@ def create():
         users.create_user(username, password1)
     except sqlite3.IntegrityError:
         return "VIRHE: tunnus on jo varattu"
-    return "Tunnus luotu"
+    flash("Tunnus luotu")
+    return redirect("/login")
 
 
 @app.route("/login", methods=["GET", "POST"])
