@@ -6,7 +6,7 @@ import db
 
 def get_user(user_id):
     """Return user data for a given user ID, including whether the user has an image."""
-    sql = """SELECT id, username, image IS NOT NULL has_image FROM users WHERE id = ?"""
+    sql = """SELECT id, username, image IS NOT NULL AS has_image FROM users WHERE id = ?"""
     result = db.query(sql, [user_id])
     return result[0] if result else None
 
@@ -15,7 +15,7 @@ def get_image(user_id):
     """Return the image data for a given user ID, or None if no image exists."""
     sql = "SELECT image FROM users WHERE id = ?"
     result = db.query(sql, [user_id])
-    return result[0]["image"] if result and result[0]["image"] else None
+    return result[0]["image"] if result else None
 
 
 def get_reviews(user_id):
