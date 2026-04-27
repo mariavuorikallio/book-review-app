@@ -39,7 +39,8 @@ def show_user(user_id):
     if not user:
         abort(404)
     user_reviews = users.get_reviews(user_id)
-    return render_template("show_user.html", user=user, reviews=user_reviews)
+    review_count = len(user_reviews)
+    return render_template("show_user.html", user=user, reviews=user_reviews, review_count=review_count)
 
 
 @app.route("/add_image", methods=["GET", "POST"])
