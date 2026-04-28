@@ -29,7 +29,8 @@ def require_login():
 def index():
     """Render the home page with all reviews."""
     all_reviews = reviews.get_reviews()
-    return render_template("index.html", reviews=all_reviews)
+    avg_rating = reviews.get_average_rating()
+    return render_template("index.html", reviews=all_reviews, avg_rating=avg_rating)
 
 
 @app.route("/user/<int:user_id>")
@@ -50,7 +51,7 @@ def add_image():
     if request.method == "GET":
         return render_template("add_image.html")
     check_csrf()
-    file = request.files.get("file")
+    file = request.files.get("image")
     if not file.filename.lower().endswith((".jpg", ".jpeg")):
         return "VIRHE: vain JPG/JPEG sallittu"
     image = file.read()

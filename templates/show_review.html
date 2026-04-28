@@ -25,12 +25,23 @@
 </p>
 
 {% if classes %}
-  <h3>Luokat</h3>
-  <ul>
+  <div class="review-meta">
+
     {% for class in classes %}
-      <li>{{ class.title }}: {{ class.value }}</li>
+      {% if class.title == "Arvosana" %}
+        <p>
+          <b>Arvosana:</b>
+          {{ "⭐" * class.value|int }}
+        </p>
+      {% else %}
+        <p>
+          <b>{{ class.title }}:</b>
+          {{ class.value }}
+        </p>
+      {% endif %}
     {% endfor %}
-  </ul>
+
+  </div>
 {% endif %}
 
 <h3>Kommentit</h3>

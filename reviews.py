@@ -93,6 +93,10 @@ def update_review(review_id, title, author, description, classes):
 
 def remove_review(review_id):
     """Remove a review and all its associated class entries."""
+    
+    sql = "DELETE FROM comments WHERE review_id = ?"
+    db.execute(sql, [review_id])
+    
     sql = "DELETE FROM review_classes WHERE review_id = ?"
     db.execute(sql, [review_id])
 
@@ -108,3 +112,8 @@ def find_reviews(query):
              ORDER BY id DESC"""
     like = "%" + query + "%"
     return db.query(sql, [like, like, like])
+    
+def get_average_rating():
+    sql = "SELECT AVG(rating) AS avg FROM reviews"
+    result = db.query(sql)
+    return result[0]["avg"]
