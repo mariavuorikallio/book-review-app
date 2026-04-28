@@ -1,26 +1,31 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Lisää profiilikuva</title>
-</head>
+{% block title %}Lisää profiilikuva{% endblock %}
 
-<body>
-  <h1>Lisää profiilikuva</h1>
+{% block content %}
 
-  <form action="/add_image" method="post" enctype="multipart/form-data">
-    <p>
-      Kuva: (vain .jpg, max 100 kt): <input type="file" name="image" accept=".jpg" required>
-    </p>
+<h2>Lisää profiilikuva</h2>
 
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+<form action="/add_image" method="post" enctype="multipart/form-data">
 
-    <input type="submit" value="Lähetä">
-  </form>
+  <p>
+    Kuva (vain .jpg, max 100 kt):
+    <input type="file" name="file" accept=".jpg" required>
+  </p>
 
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+
+  <input type="submit" value="Lähetä">
+</form>
+
+{% if session.user_id %}
   <p>
     <a href="/user/{{ session.user_id }}">Takaisin profiiliin</a>
   </p>
-</body>
+{% else %}
+  <p>
+    <a href="/">Takaisin etusivulle</a>
+  </p>
+{% endif %}
 
-</html>
+{% endblock %}

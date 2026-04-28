@@ -1,0 +1,60 @@
+body {
+  margin: auto;
+  max-width: 50em;
+  font-family: sans-serif;
+  background-color: #f5f7fa;
+}
+
+.header {
+  background-color: #222;
+  color: white;
+  padding: 1em;
+  margin: 0.5em 0;
+}
+
+.nav {
+  background-color: #ddd;
+  padding: 0.5em;
+  margin: 0.5em 0;
+}
+
+.content {
+  background-color: white;
+  padding: 1em;
+  margin: 0.5em 0;
+}
+
+h1, h2 {
+  margin: 0;
+}
+
+nav {
+  text-align: center;
+}
+
+nav ul {
+  padding: 0;
+  margin: 0;
+}
+
+nav li {
+  display: inline-block;
+  padding: 0 1em;
+}
+
+nav li:not(:last-of-type) {
+  border-right: 1px solid black;
+}
+
+.review {
+  border: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0.5em;
+}
+
+.info {
+  border: 1px solid black;
+  padding: 0.5em;
+  background-color: #007BFF;
+  color: white;
+}

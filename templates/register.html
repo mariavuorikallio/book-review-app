@@ -1,29 +1,37 @@
-<!DOCTYPE html>
-<html>
+{% extends "auth_layout.html" %}
 
-<head>
-  <title>Rekisteröinti</title>
-</head>
+{% block title %}Rekisteröinti{% endblock %}
 
-<body>
-  <form action="/create" method="post">
+{% block content %}
 
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+<h2>Luo tunnus</h2>
 
-    <p>
-      Tunnus: <br />
-      <input type="text" name="username" required />
-    </p>
-    <p>
-      Salasana: <br />
-      <input type="password" name="password1" required />
-    </p>
-    <p>
-      Salasana uudestaan: <br />
-      <input type="password" name="password2" required />
-    </p>
-    <input type="submit" value="Luo tunnus" />
-  </form>
-</body>
+<form action="/create" method="post">
 
-</html>
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+
+  <p>
+    Tunnus:<br>
+    <input type="text" name="username" required>
+  </p>
+
+  <p>
+    Salasana:<br>
+    <input type="password" name="password1" required>
+  </p>
+
+  <p>
+    Salasana uudestaan:<br>
+    <input type="password" name="password2" required>
+  </p>
+
+  <button type="submit">Luo tunnus</button>
+
+</form>
+
+<p>
+  Onko sinulla jo tunnus?
+  <a href="/login">Kirjaudu sisään</a>
+</p>
+
+{% endblock %}

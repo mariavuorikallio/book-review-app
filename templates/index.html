@@ -1,36 +1,23 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Kirjautuminen</title>
-</head>
-<body>
-  <h1>Book Review App</h1>
-  {% if session.username %}
-  <p>
-    Olet kirjautunut nimellä {{ session.username }}
-  </p>
-  <p>
-   <a href="/logout">Kirjaudu ulos</a>
-   </p>
-   <p>
-     <a href="/new_review">Uusi arvostelu</a>
-   </p>
-  {% else %}
-  <p>
-   <a href="/login">Kirjaudu sisään</a>
-   <a href="/register">Luo tunnus</a>
-   </p>
-   {% endif %}
-   <p>
-     <a href="/find_review">Etsi arvostelu</a>
-   </p>
-   <h2>Arvostelut</h2>
-   <ul>
-     {% for review in reviews %}
-     <li><a href="/review/{{ review.id }}">{{ review.title }}</a></li>
-     {% endfor %}  
-   </ul>
-</body>
+{% block title %}Etusivu{% endblock %}
 
-</html>
+{% block content %}
+
+<h2>Arvostelut</h2>
+
+{% if session.username %}
+  <p>Olet kirjautunut nimellä <b>{{ session.username }}</b></p>
+{% endif %}
+
+{% if reviews %}
+  {% for review in reviews %}
+    <div class="review">
+      <a href="/review/{{ review.id }}">{{ review.title }}</a>
+    </div>
+  {% endfor %}
+{% else %}
+  <p>Ei arvosteluja vielä.</p>
+{% endif %}
+
+{% endblock %}

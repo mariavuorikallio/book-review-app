@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>{% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="/static/main.css">
+</head>
+
+<body>
+
+  <div class="header">
+    <h1>Book Review App</h1>
+  </div>
+
+  <div class="nav">
+    <nav>
+      <ul>
+        {% if request.path != "/" %}
+        <li><a href="/">Etusivu</a></li>
+        {% endif %}
+        <li><a href="/find_review">Haku</a></li>
+
+  <div class="content">
+    {% for message in get_flashed_messages() %}
+      <p class="info">{{ message }}</p>
+    {% endfor %}
+
+    {% block content %}{% endblock %}
+  </div>
+
+</body>
+
+</html>

@@ -1,52 +1,48 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Muokkaa arvostelua</title>
-</head>
+{% block title %}Muokkaa arvostelua{% endblock %}
 
-<body>
-  <h1>Muokkaa arvostelua</h1>
+{% block content %}
 
-  <form action="/update_review" method="post">
-    
+<h2>Muokkaa arvostelua</h2>
+
+<form action="/update_review" method="post">
+
+  <p>
+    Kirjan nimi:<br>
+    <input type="text" name="title" value="{{ review.title }}" maxlength="50" required>
+  </p>
+
+  <p>
+    Kirjailija:<br>
+    <input type="text" name="author" value="{{ review.author }}" maxlength="50" required>
+  </p>
+
+  <p>
+    Kuvaus:<br>
+    <textarea name="description" rows="6" maxlength="1000" required>{{ review.description }}</textarea>
+  </p>
+
+  {% for class in all_classes %}
     <p>
-      Kirjan nimi: <br />
-      <input type="text" name="title" value="{{ review.title }}" maxlength="50" required />
+      {{ class }}:<br>
+      <select name="classes">
+        {% for option in all_classes[class] %}
+          <option value="{{ class }}:{{ option }}"
+            {% if classes[class] == option %}selected{% endif %}>
+            {{ option }}
+          </option>
+        {% endfor %}
+      </select>
     </p>
+  {% endfor %}
 
-    <p>
-      Kirjailija: <br />
-      <input type="text" name="author" value="{{ review.author }}" maxlength="50" required />
-    </p>
+  <input type="hidden" name="review_id" value="{{ review.id }}">
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 
-    <p>
-      Kuvaus: <br />
-      <textarea name="description" rows="8" cols="60" maxlength="1000" required>{{ review.description }}</textarea>
-    </p>
+  <button type="submit"> Tallenna muutokset</button>
+  <a href="/review/{{ review.id }}">Peruuta</a>
 
-    <input type="hidden" name="review_id" value="{{ review.id }}" />
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+</form>
 
-    {% for class in all_classes %}
-      <p>
-        {{ class }}: <br />
-        <select name="classes">
-          {% for option in all_classes[class] %}
-            {% if classes[class] == option %}
-              <option value="{{ class }}:{{ option }}" selected>{{ option }}</option>
-            {% else %}
-              <option value="{{ class }}:{{ option }}">{{ option }}</option>
-            {% endif %}
-          {% endfor %}
-        </select>
-      </p>
-    {% endfor %}
-
-    <input type="submit" value="Päivitä arvostelua" />
-
-  </form>
-  <p><a href="/review/{{ review.id }}">Takaisin arvosteluun</a></p>
-</body>
-
-</html>
+{% endblock %}

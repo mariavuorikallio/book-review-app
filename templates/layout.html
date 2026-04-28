@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>{% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="/static/main.css">
+</head>
+
+<body>
+
+  <div class="header">
+    <h1>Book Review App</h1>
+  </div>
+
+  <div class="nav">
+    <nav>
+      <ul>
+
+        {% if request.path != "/" %}
+          <li><a href="/">Etusivu</a></li>
+        {% endif %}
+
+        <li><a href="/find_review">Haku</a></li>
+
+        {% if session.user_id %}
+
+          {% if request.path != "/new_review" %}
+            <li><a href="/new_review">Uusi arvostelu</a></li>
+          {% endif %}
+
+          {% if request.path != "/user/" ~ session.user_id|string %}
+            <li><a href="/user/{{ session.user_id }}">Profiili</a></li>
+          {% endif %}
+
+          <li><a href="/logout">Kirjaudu ulos</a></li>
+
+        {% else %}
+
+          <li><a href="/login">Kirjaudu sisään</a></li>
+          <li><a href="/register">Luo tunnus</a></li>
+
+        {% endif %}
+
+      </ul>
+    </nav>
+  </div>
+
+  <div class="content">
+    {% for message in get_flashed_messages() %}
+      <p class="info">{{ message }}</p>
+    {% endfor %}
+
+    {% block content %}{% endblock %}
+  </div>
+
+</body>
+</html>

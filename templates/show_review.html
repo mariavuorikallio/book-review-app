@@ -1,64 +1,69 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>{{ review.title }}</title>
-</head>
+{% block title %}{{ review.title }}{% endblock %}
 
-<body>
-  <h1>{{ review.title }}</h1>
-  
-  {% if session.user_id == review.user_id %}
+{% block content %}
+
+<h2>{{ review.title }}</h2>
+
+{% if session.user_id == review.user_id %}
   <p>
     <a href="/edit_review/{{ review.id }}">Muokkaa</a>
     <a href="/remove_review/{{ review.id }}">Poista</a>
   </p>
-  {% endif %}
-  
-  <p>
-    {{ review.author }}
-  </p>
-  <p>
-    Kuvaus: {{ review.description }}
-  </p>
-  <p>
-    Käyttäjä: <a href="/user/{{ review.user_id }}">{{ review.username }}</a>
-  </p>
-  
-  {% if classes %}
-  <p>
-    <ul>
-      {% for class in classes %}
-        <li>{{ class.title }}: {{ class.value }}</li>
-      {% endfor %}
-    </ul>
-  </p>
-  {% endif %}
-  
-  <h2>Kommentit</h2>
+{% endif %}
+
+<p><b>Kirjailija:</b> {{ review.author }}</p>
+
+<p><b>Kuvaus:</b><br>
+  {{ review.description }}
+</p>
+
+<p>
+  <b>Käyttäjä:</b>
+  <a href="/user/{{ review.user_id }}">{{ review.username }}</a>
+</p>
+
+{% if classes %}
+  <h3>Luokat</h3>
+  <ul>
+    {% for class in classes %}
+      <li>{{ class.title }}: {{ class.value }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+<h3>Kommentit</h3>
+
+{% if comments %}
   <ul>
     {% for comment in comments %}
       <li>
-        <a href="/user/{{ comment.user_id }}">{{ comment.username }}</a>: {{ comment.content }}
-        <small>{{ comment.created_at[8:10] }}.{{ comment.created_at[5:7] }}.{{ comment.created_at[0:4] }} klo {{ comment.created_at[11:16] }}</small>
+        <a href="/user/{{ comment.user_id }}">{{ comment.username }}</a>:
+        {{ comment.content }}
+        <br>
+        <small>{{ comment.created_at }}</small>
       </li>
     {% endfor %}
   </ul>
+{% else %}
+  <p>Ei kommentteja vielä.</p>
+{% endif %}
 
-  {% if session.user_id %}
+{% if session.user_id %}
   <form action="/create_comment" method="post">
-    <textarea name="content" rows="4" cols="60" maxlength="1000" required></textarea>
+    <textarea name="content" rows="4" maxlength="1000" required></textarea>
     <input type="hidden" name="review_id" value="{{ review.id }}">
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-    <input type="submit" value="Lisää kommentti" />
+    <br>
+    <button type="submit">Lisää kommentti</button>
   </form>
-  {% else %}
-    <p>Kirjaudu sisään lisätäksesi kommentin.</p>
-  {% endif %}
-  
-  <p>
-    <a href="/">Takaisin</a>
-  </p>
-</body>
+{% else %}
+  <p>Kirjaudu sisään lisätäksesi kommentin.</p>
+{% endif %}
 
-</html>
+<p>
+  <a href="/">Takaisin</a>
+</p>
+
+{% endblock %}

@@ -51,10 +51,10 @@ def add_image():
         return render_template("add_image.html")
     check_csrf()
     file = request.files.get("file")
-    if not file or not file.filename.endswith(".jpg"):
-        return "VIRHE: väärä tiedostomuoto"
+    if not file.filename.lower().endswith((".jpg", ".jpeg")):
+        return "VIRHE: vain JPG/JPEG sallittu"
     image = file.read()
-    if len(image) > 100 * 1024:
+    if len(image) > 1024 * 1024:
         return "VIRHE: liian suuri kuva"
     user_id = session["user_id"]
     users.update_image(user_id, image)

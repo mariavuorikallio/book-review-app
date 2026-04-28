@@ -1,34 +1,29 @@
-<!DOCTYPE html>
-<html>
+{% extends "auth_layout.html" %}
 
-<head>
-  <title>Kirjautuminen</title>
-</head>
+{% block title %}Kirjaudu{% endblock %}
 
-<body>
-  {% if session.username %}
+{% block content %}
+
+<h2>Kirjaudu sisään</h2>
+
+<form action="/login" method="post">
+
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+
   <p>
-    Olet kirjautunut nimellä {{ session.username }}
+    Tunnus:<br>
+    <input type="text" name="username" required>
   </p>
+
   <p>
-    <a href="/logout">Kirjaudu ulos</a>
+    Salasana:<br>
+    <input type="password" name="password" required>
   </p>
-  {% else %}
-  <form action="/login" method="post">
 
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+  <input type="submit" value="Kirjaudu">
 
-    <p>
-      Tunnus: <br />
-      <input type="text" name="username" required />
-    </p>
-    <p>
-      Salasana: <br />
-      <input type="password" name="password" required />
-    </p>
-    <input type="submit" value="Kirjaudu" />
-  </form>
-  {% endif %}
-</body>
+</form>
 
-</html>
+<p><a href="/register">Luo tunnus</a></p>
+
+{% endblock %}
