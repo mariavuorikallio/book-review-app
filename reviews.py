@@ -46,7 +46,12 @@ def add_comment(review_id, user_id, content):
 
 def get_notifications(user_id):
     sql = """
-        SELECT notifications.*, reviews.title
+        SELECT notifications.id,
+               notifications.review_id,
+               notifications.message,
+               notifications.created_at,
+               notifications.seen,
+               reviews.title
         FROM notifications
         JOIN reviews ON notifications.review_id = reviews.id
         WHERE notifications.user_id = ? AND notifications.seen = 0
@@ -118,19 +123,20 @@ def update_review(review_id, title, author, description, classes):
     for class_title, class_value in classes:
         db.execute(sql, [review_id, class_title, class_value])
 
-
 def remove_review(review_id):
-    """Remove a review and all its associated class entries."""
     
     sql = "DELETE FROM comments WHERE review_id = ?"
     db.execute(sql, [review_id])
-    
+
     sql = "DELETE FROM review_classes WHERE review_id = ?"
+    db.execute(sql, [review_id])
+
+    sql = "DELETE FROM notifications WHERE review_id = ?"
     db.execute(sql, [review_id])
 
     sql = "DELETE FROM reviews WHERE id = ?"
     db.execute(sql, [review_id])
-
+    
 
 def find_reviews(query):
     """Search for reviews by title, author, or description containing the query string."""
