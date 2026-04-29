@@ -4,14 +4,16 @@
 
 ##  Sovelluksen toiminnot
 
-* Sovelluksessa käyttäjät voivat jakaa kirja-arvosteluja. Jokaisessa kirjassa näkyy kirjan nimi, kirjailija ja kuvaus.
+* Sovelluksessa käyttäjät voivat jakaa kirja-arvosteluja. Jokaisessa arvostelussa näkyy kirjan nimi, kirjailija ja kuvaus.
 * Käyttäjä pystyy luomaan tunnuksen ja kirjautumaan sisään sovellukseen.
-* Käyttäjä pystyy lisäämään kirjoja sekä muokkaamaan ja poistamaan lisäämiään kirjoja.
-* Käyttäjä näkee sovellukseen lisätyt kirjat.
-* Käyttäjä pystyy etsimään kirjoja hakusanalla (esim. kirjan nimi tai kirjailija).
-* Käyttäjäsivu näyttää, montako kirjaa käyttäjä on lisännyt ja listan käyttäjän lisäämistä kirjoista.
-* Käyttäjä pystyy valitsemaan kirjalle yhden tai useamman genren (esim. jännitys, romaani, fantasia).
-* Käyttäjät voivat antaa kirjoille arvosteluja, joissa on kommentti ja arvosana.
+* Käyttäjä pystyy lisäämään arvosteluja sekä muokkaamaan ja poistamaan lisäämiään arvosteluja.
+* Käyttäjä näkee sovellukseen lisätyt arvostelut.
+* Käyttäjä pystyy etsimään arvosteluja hakusanalla (esim. kirjan nimi tai kirjailija).
+* Käyttäjäsivu näyttää, montako arvostelua käyttäjä on lisännyt ja listan käyttäjän lisäämistä arvosteluista.
+* Käyttäjä pystyy valitsemaan arvostelulle yhden tai useamman genren (esim. jännitys, romaani, fantasia) sekä arvosanan.
+* Käyttäjät voivat kommentoida arvosteluja.
+* Käyttäjät saavat ilmoituksen, kun heidän arvosteluihinsa lisätään kommentteja.
+* Käyttäjät voivat lisätä profiilikuvan
 ---
 
 ## Asennusohjeet
