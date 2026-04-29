@@ -36,7 +36,7 @@ def add_comment(review_id, user_id, content):
         "INSERT INTO comments (review_id, user_id, content) VALUES (?, ?, ?)",
         [review_id, user_id, content]
     )
-    
+
     sql = "SELECT user_id, title FROM reviews WHERE id = ?"
     review = db.query(sql, [review_id])[0]
 
@@ -58,18 +58,18 @@ def get_notifications(user_id):
         ORDER BY notifications.created_at DESC
     """
     return db.query(sql, [user_id])
-            
+
 def add_notification(user_id, review_id, message):
     sql = """
         INSERT INTO notifications (user_id, review_id, message)
         VALUES (?, ?, ?)
     """
     db.execute(sql, [user_id, review_id, message])
-   
+
 def mark_notification_seen(notification_id):
     sql = "UPDATE notifications SET seen = 1 WHERE id = ?"
     db.execute(sql, [notification_id])
-    
+
 def get_comments(review_id):
     """Return all comments for a review, including user information, ordered by newest first."""
     sql = """SELECT users.id AS user_id, users.username, comments.content, comments.created_at
@@ -124,7 +124,7 @@ def update_review(review_id, title, author, description, classes):
         db.execute(sql, [review_id, class_title, class_value])
 
 def remove_review(review_id):
-    
+
     sql = "DELETE FROM comments WHERE review_id = ?"
     db.execute(sql, [review_id])
 
@@ -136,7 +136,7 @@ def remove_review(review_id):
 
     sql = "DELETE FROM reviews WHERE id = ?"
     db.execute(sql, [review_id])
-    
+
 
 def find_reviews(query):
     """Search for reviews by title, author, or description containing the query string."""
