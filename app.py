@@ -155,12 +155,6 @@ def create_comment():
     if not content or len(content) > 1000:
         abort(403)
     reviews.add_comment(review_id, user_id, content)
-    if review["user_id"] != user_id:
-        reviews.add_notification(
-            review["user_id"],
-            review_id,
-            f"Uusi kommentti arvosteluusi: {review['title']}"
-        )
     return redirect(f"/review/{review_id}")
 
 
