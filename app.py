@@ -29,8 +29,7 @@ def require_login():
 def index():
     """Render the home page with all reviews."""
     all_reviews = reviews.get_reviews()
-    avg_rating = reviews.get_average_rating()
-    return render_template("index.html", reviews=all_reviews, avg_rating=avg_rating)
+    return render_template("index.html", reviews=all_reviews)
 
 
 @app.route("/user/<int:user_id>")
@@ -95,7 +94,7 @@ def show_review(review_id):
     notif_id = request.args.get("notif")
 
     if notif_id:
-        reviews.mark_notification_seen(notif_id)
+        reviews.mark_notification_seen(int(notif_id))
     review = reviews.get_review(review_id)
     if not review:
         abort(404)

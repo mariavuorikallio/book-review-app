@@ -146,8 +146,3 @@ def find_reviews(query):
              ORDER BY id DESC"""
     like = "%" + query + "%"
     return db.query(sql, [like, like, like])
-    
-def get_average_rating():
-    sql = "SELECT AVG(rating) AS avg FROM reviews"
-    result = db.query(sql)
-    return result[0]["avg"]
