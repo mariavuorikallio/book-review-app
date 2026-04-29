@@ -45,6 +45,7 @@ def add_comment(review_id, user_id, content):
         add_notification(review["user_id"], review_id, message)
 
 def get_notifications(user_id):
+    """Return unread notifications for a user."""
     sql = """
         SELECT notifications.id,
                notifications.review_id,
@@ -60,6 +61,7 @@ def get_notifications(user_id):
     return db.query(sql, [user_id])
 
 def add_notification(user_id, review_id, message):
+    """Create a new notification."""
     sql = """
         INSERT INTO notifications (user_id, review_id, message)
         VALUES (?, ?, ?)
@@ -67,6 +69,7 @@ def add_notification(user_id, review_id, message):
     db.execute(sql, [user_id, review_id, message])
 
 def mark_notification_seen(notification_id):
+    """Mark notification as seen."""
     sql = "UPDATE notifications SET seen = 1 WHERE id = ?"
     db.execute(sql, [notification_id])
 
@@ -124,7 +127,7 @@ def update_review(review_id, title, author, description, classes):
         db.execute(sql, [review_id, class_title, class_value])
 
 def remove_review(review_id):
-
+    """Delete a review and all related data."""
     sql = "DELETE FROM comments WHERE review_id = ?"
     db.execute(sql, [review_id])
 

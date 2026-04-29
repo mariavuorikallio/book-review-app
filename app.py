@@ -44,7 +44,13 @@ def show_user(user_id):
         notifications = reviews.get_notifications(user_id)
     else:
         notifications = []
-    return render_template("show_user.html", user=user, reviews=user_reviews, review_count=review_count, notifications=notifications)
+    return render_template(
+    "show_user.html",
+    user=user,
+    reviews=user_reviews,
+    review_count=review_count,
+    notifications=notifications,
+)
 
 
 @app.route("/add_image", methods=["GET", "POST"])
