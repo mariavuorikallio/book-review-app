@@ -6,6 +6,10 @@
 
 <h2>Kirjaudu sisään</h2>
 
+{% for message in get_flashed_messages() %}
+  <p><b>{{ message }}</b></p>
+{% endfor %}
+
 <form action="/login" method="post">
 
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">

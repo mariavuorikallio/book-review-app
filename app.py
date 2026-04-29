@@ -38,7 +38,7 @@ def show_user(user_id):
     user = users.get_user(user_id)
     if not user:
         abort(404)
-    user_reviews = users.get_reviews(user_id)
+    user_reviews = users.get_reviews(user_id) or []
     review_count = len(user_reviews)
     if "user_id" in session and session["user_id"] == user_id:
         notifications = reviews.get_notifications(user_id)
@@ -232,11 +232,13 @@ def create():
     password1 = request.form["password1"]
     password2 = request.form["password2"]
     if password1 != password2:
-        return "VIRHE: salasanat eivät ole samat"
+        flash("VIRHE: väärä tunnus tai salasana")
+        return redirect("/login")
     try:
         users.create_user(username, password1)
     except sqlite3.IntegrityError:
-        return "VIRHE: tunnus on jo varattu"
+        flash("VIRHE: tunnus on jo varattu")
+        return redirect("/register")
     flash("Tunnus luotu")
     return redirect("/login")
 
@@ -254,7 +256,8 @@ def login():
         session["username"] = username
         session["csrf_token"] = secrets.token_hex(16)
         return redirect("/")
-    return "VIRHE: väärä tunnus tai salasana"
+    flash("VIRHE: väärä tunnus tai salasana")
+    return redirect("/login")
 
 
 @app.route("/logout")
