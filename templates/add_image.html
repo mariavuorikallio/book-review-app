@@ -9,8 +9,8 @@
 <form action="/add_image" method="post" enctype="multipart/form-data">
 
   <p>
-    Kuva (vain .jpg, max 100 kt):
-    <input type="file" name="file" accept=".jpg" required>
+    Kuva (vain .jpg/.jpeg, max 1 Mt):
+    <input type="file" name="image" accept=".jpg,.jpeg" required>
   </p>
 
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">

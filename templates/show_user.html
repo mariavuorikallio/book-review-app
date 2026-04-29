@@ -6,16 +6,32 @@
 
 <h2>{{ user.username }}</h2>
 
+{% for message in get_flashed_messages() %}
+  <p><b>{{ message }}</b></p>
+{% endfor %}
+
 {% if user.has_image %}
+
   <img src="/image/{{ user.id }}" alt="Profiilikuva"
        style="max-width:150px; max-height:150px;">
+
+  {% if session.user_id == user.id %}
+    <p>
+      <a href="/add_image">Vaihda profiilikuva</a>
+    </p>
+  {% endif %}
+
 {% elif session.user_id == user.id %}
+
   <p>
     Et ole vielä lisännyt profiilikuvaa.
     <a href="/add_image">Lisää profiilikuva</a>
   </p>
+
 {% else %}
+
   <p>Ei profiilikuvaa</p>
+
 {% endif %}
 
 <p>Käyttäjällä on yhteensä <b>{{ review_count }}</b> arvostelua.</p>

@@ -56,12 +56,15 @@ def add_image():
     check_csrf()
     file = request.files.get("image")
     if not file.filename.lower().endswith((".jpg", ".jpeg")):
-        return "VIRHE: vain JPG/JPEG sallittu"
+        flash("VIRHE: vain JPG/JPEG sallittu")
+        return redirect("/add_image")
     image = file.read()
     if len(image) > 1024 * 1024:
-        return "VIRHE: liian suuri kuva"
+        flash("VIRHE: liian suuri kuva")
+        return redirect("/add_image")
     user_id = session["user_id"]
     users.update_image(user_id, image)
+    flash("Profiilikuva päivitetty onnistuneesti")
     return redirect(f"/user/{user_id}")
 
 
