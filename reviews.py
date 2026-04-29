@@ -32,11 +32,39 @@ def add_review(title, author, description, user_id, classes):
 
 def add_comment(review_id, user_id, content):
     """Add a comment to a review."""
-    sql = """INSERT INTO comments (review_id, user_id, content)
-             VALUES (?, ?, ?)"""
-    db.execute(sql, [review_id, user_id, content])
+    db.execute(
+        "INSERT INTO comments (review_id, user_id, content) VALUES (?, ?, ?)",
+        [review_id, user_id, content]
+    )
+    
+    sql = "SELECT user_id, title FROM reviews WHERE id = ?"
+    review = db.query(sql, [review_id])[0]
 
+    if review["user_id"] != user_id:
+        message = f"Uusi kommentti arvosteluusi: {review['title']}"
+        add_notification(review["user_id"], review_id, message)
 
+def get_notifications(user_id):
+    sql = """
+        SELECT notifications.*, reviews.title
+        FROM notifications
+        JOIN reviews ON notifications.review_id = reviews.id
+        WHERE notifications.user_id = ? AND notifications.seen = 0
+        ORDER BY notifications.created_at DESC
+    """
+    return db.query(sql, [user_id])
+            
+def add_notification(user_id, review_id, message):
+    sql = """
+        INSERT INTO notifications (user_id, review_id, message)
+        VALUES (?, ?, ?)
+    """
+    db.execute(sql, [user_id, review_id, message])
+   
+def mark_notification_seen(notification_id):
+    sql = "UPDATE notifications SET seen = 1 WHERE id = ?"
+    db.execute(sql, [notification_id])
+    
 def get_comments(review_id):
     """Return all comments for a review, including user information, ordered by newest first."""
     sql = """SELECT users.id AS user_id, users.username, comments.content, comments.created_at

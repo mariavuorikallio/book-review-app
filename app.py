@@ -41,7 +41,11 @@ def show_user(user_id):
         abort(404)
     user_reviews = users.get_reviews(user_id)
     review_count = len(user_reviews)
-    return render_template("show_user.html", user=user, reviews=user_reviews, review_count=review_count)
+    if "user_id" in session and session["user_id"] == user_id:
+        notifications = reviews.get_notifications(user_id)
+    else:
+        notifications = []
+    return render_template("show_user.html", user=user, reviews=user_reviews, review_count=review_count, notifications=notifications)
 
 
 @app.route("/add_image", methods=["GET", "POST"])
@@ -88,6 +92,10 @@ def find_review():
 @app.route("/review/<int:review_id>")
 def show_review(review_id):
     """Display a specific review with its classes and comments."""
+    notif_id = request.args.get("notif")
+
+    if notif_id:
+        reviews.mark_notification_seen(notif_id)
     review = reviews.get_review(review_id)
     if not review:
         abort(404)
@@ -138,7 +146,7 @@ def create_comment():
     """Add a comment to a review."""
     require_login()
     check_csrf()
-    review_id = request.form["review_id"]
+    review_id = int(request.form["review_id"])
     review = reviews.get_review(review_id)
     if not review:
         abort(403)
@@ -147,6 +155,12 @@ def create_comment():
     if not content or len(content) > 1000:
         abort(403)
     reviews.add_comment(review_id, user_id, content)
+    if review["user_id"] != user_id:
+        reviews.add_notification(
+            review["user_id"],
+            review_id,
+            f"Uusi kommentti arvosteluusi: {review['title']}"
+        )
     return redirect(f"/review/{review_id}")
 
 

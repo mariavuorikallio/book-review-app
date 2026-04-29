@@ -36,3 +36,13 @@ CREATE TABLE review_classes (
     value TEXT
 
 );
+
+CREATE TABLE notifications (
+    id INTEGER PRIMARY KEY,
+    user_id INTEGER REFERENCES users,
+    review_id INTEGER REFERENCES reviews,
+    comment_id INTEGER,
+    message TEXT,
+    seen INTEGER DEFAULT 0,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);

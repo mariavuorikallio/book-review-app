@@ -34,6 +34,27 @@
   <p>Ei arvosteluja vielä.</p>
 {% endif %}
 
+{% if session.user_id == user.id %}
+
+  <h3>Ilmoitukset</h3>
+
+  {% if notifications %}
+    <ul>
+      {% for notification in notifications %}
+        <li>
+          Uusi kommentti arvosteluusi:
+          <a href="/review/{{ notification.review_id }}?notif={{ notification.id }}">
+            {{ notification.title }}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Ei ilmoituksia</p>
+  {% endif %}
+
+{% endif %}
+
 <p><a href="/">Takaisin</a></p>
 
 {% endblock %}
